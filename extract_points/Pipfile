@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+numpy = "*"
+pandas = "*"
+scipy = "*"
+tensorflow = "==1.8.0"
+pygdal = "==2.1.2.3"
+"netCDF4" = "*"
+Shapely = "*"
+mgrs = "*"
+
+
+pytest = "*"
+pytest-cov = "*"
+codecov = "*"
+flake8 = "*"
+pre_commit = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"

@@ -1,0 +1,8 @@
+./data/cropscape/2013_30m_cdls/2013_30m_cdls.img
+./data/cropscape/2011_30m_cdls/2011_30m_cdls.img
+./data/cropscape/2010_30m_cdls/2010_30m_cdls.img
+./data/cropscape/2014_30m_cdls/2014_30m_cdls.img
+./data/cropscape/2017_30m_cdls/2017_30m_cdls.img
+./data/cropscape/2012_30m_cdls/2012_30m_cdls.img
+./data/cropscape/2015_30m_cdls/2015_30m_cdls.img
+./data/cropscape/2016_30m_cdls/2016_30m_cdls.img
