@@ -57,22 +57,16 @@ def save_shp(shapePath, geoLocations, proj4):
 
 if __name__ == '__main__':
     #get data for selected points
-    # proj4 = '+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs'
     proj4 = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
-    # labels = ['rice', 'soy']
-    # for label in labels:
-    #     path = os.path.join('/home/zy/Documents/crop', label+'_points.json')
-    #     with open(path, 'r') as fp:
-    #         des = json.load(fp)
-    #     save_shp(path, des, proj4)
-    pp = numpy.load("/home/zy/data_pool/U-TMP/excersize/point_extractor/sample_points/CHINA/"
-                    "2018_corn_China_sample_points_c.npz")
+	file_name = "CHINA/2018_corn_China_sample_points_c.npz"
+	sample_path = "data_pool/U-TMP/excersize/point_extractor/sample_points"
+    pp = numpy.load(os.path.join(os.path.expanduser('~'), sample_path, file_name))
     pp = pp['arr_0']
     pp = pp.tolist()
     mo = pp['landsat']
     alll = []
     for key in mo.keys():
         alll.extend(mo[key])
-
-    save_shp("2018_corn_MS_distribution.shp", alll, proj4)
+	shp_path = os.path.join(os.path.expanduser('~'), os.path.split(sample_path)[0], 'spacial_check')
+    save_shp(shp_path+"/2018_corn_MS_distribution.shp", alll, proj4)
 
