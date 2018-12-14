@@ -27,7 +27,9 @@ CROP = {
     'Cotton': 2,
     'Rice': 3,
     'Soybeans': 5,
-	'Peanuts': 10,
+    'Peanuts': 10,
+    'Potatoes': 43,
+    'Oats': 28,
 }
 logger = logging.getLogger()
 
@@ -285,10 +287,10 @@ if __name__ == '__main__':
 
     # =============可调式参数=================
     pixel_num = 2000
-    crop_types = ['Peanuts']
-    region = 'South_east'
+    crop_types = ['Potatoes', 'Oats']
+    region = 'Corn_belt'
     state = 2
-    years = ['2014', '2015', '2016', '2017']  # only useful for state=1
+    years = ['2017']  # only useful for state=1
     # =======================================
     if state == 1:
         print('*****************************Extract samples from clipped CDL image******************************')
@@ -324,15 +326,15 @@ if __name__ == '__main__':
     elif state == 2:
         print('*******************************Clip CDL image and extract samples********************************')
         # =============可调参数=====================
-        tile_json = os.path.join(home_dir, root_path, 'South_east_peanuts.json')
+        tile_json = os.path.join(home_dir, root_path, 'Corn_belt_potatoes_oats.json')
         # =======================================
         with open(tile_json, 'r') as lf:
             tile_paths = json.load(lf)
         # print(tile_paths)
         cdl_paths = [
-            os.path.join(home_dir, "data/cropscape/2014_30m_cdls/2014_30m_cdls.img"),
-            os.path.join(home_dir, "data/cropscape/2015_30m_cdls/2015_30m_cdls.img"),
-            os.path.join(home_dir, "data/cropscape/2016_30m_cdls/2016_30m_cdls.img"),
+            # os.path.join(home_dir, "data/cropscape/2014_30m_cdls/2014_30m_cdls.img"),
+            # os.path.join(home_dir, "data/cropscape/2015_30m_cdls/2015_30m_cdls.img"),
+            # os.path.join(home_dir, "data/cropscape/2016_30m_cdls/2016_30m_cdls.img"),
             os.path.join(home_dir, "data/cropscape/2017_30m_cdls/2017_30m_cdls.img")
         ]
 

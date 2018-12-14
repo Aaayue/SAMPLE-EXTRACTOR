@@ -8,22 +8,13 @@ REF_TYPES_S = ["S_R_band", "S_G_band", "S_B_band", "S_NIR_band", "S_SWIR1", "S_S
 LST_TYPES = ["MODIS_LST"]
 PRECIP_TYPES = ["TRMM_GPM"]
 
-EXTRACTED_PATH = join(HOME_DIR, "data_pool", "U-TMP/excersize/point_extractor", "extract_points/South_east")
+EXTRACTED_PATH = join(HOME_DIR, "data_pool", "U-TMP/excersize/point_extractor", "extract_points/Corn_belt")
 PREPROCESSED_PATH = join(
-    HOME_DIR, "data_pool", "U-TMP/excersize/point_extractor", "preprocessed_points", "preprocess/South_east"
+    HOME_DIR, "data_pool", "U-TMP/excersize/point_extractor", "preprocessed_points", "preprocess/Corn_belt"
 )
 PRETRAIN_PATH = join(
-    HOME_DIR, "data_pool", "U-TMP/excersize/point_extractor", "preprocessed_points", "pretrain"
+    HOME_DIR, "data_pool", "U-TMP/excersize/point_extractor", "preprocessed_points", "pretrain/Corn_belt"
 )
 
-INDICATOR = {
-	"Peanuts": 4,
-    	"Corn": 0,
-    	"Soybeans": 1,
-    	"Rice": 3,
-    	"Cotton": 2,
-    	"Other": 6,
-#     "sugarcane": 19, "soybeans":4, 'wheat':2, 'rice':3, 'rape':7, 'trees':6, 'peach':26, 'vegetables':10, 'scallion':33,
-#     'watermelon':36, 'grape':23, 'water':43, 'peas':29, 'potato':14, 'sweet':37, 'millet':49, 'tomato1':12,
-#     'asparagus':42, 'pumpkin':40, 'sunflower':17, 'peanut':8, 'tomato2':21, 'pear':25, 'taro':46, 'sorghum':15
-}
+INDICATOR = {"Peanuts": 4, "Corn": 0, "Soybeans": 1, "Rice": 3, "Cotton": 2, "Other": 6, "Potatoes": 43, "Oats": 28}
+

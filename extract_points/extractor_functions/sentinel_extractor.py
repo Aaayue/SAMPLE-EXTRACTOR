@@ -5,8 +5,8 @@ import pprint
 from osgeo import gdal
 from os.path import join
 import glob
-from waterfall.extractor_functions import geo_functions
-from waterfall.extractor_functions import settings
+from extractor_functions import geo_functions
+from extractor_functions import settings
 import gc
 import numpy
 import time

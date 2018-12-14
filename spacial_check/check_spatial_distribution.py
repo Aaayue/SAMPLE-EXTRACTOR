@@ -58,8 +58,8 @@ def save_shp(shapePath, geoLocations, proj4):
 if __name__ == '__main__':
     #get data for selected points
     proj4 = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
-	file_name = "CHINA/2018_corn_China_sample_points_c.npz"
-	sample_path = "data_pool/U-TMP/excersize/point_extractor/sample_points"
+    file_name = "2017_Potatoes_Corn_belt_sample_points_c.npz"
+    sample_path = "data_pool/U-TMP/excersize/point_extractor/sample_points"
     pp = numpy.load(os.path.join(os.path.expanduser('~'), sample_path, file_name))
     pp = pp['arr_0']
     pp = pp.tolist()
@@ -67,6 +67,6 @@ if __name__ == '__main__':
     alll = []
     for key in mo.keys():
         alll.extend(mo[key])
-	shp_path = os.path.join(os.path.expanduser('~'), os.path.split(sample_path)[0], 'spacial_check')
-    save_shp(shp_path+"/2018_corn_MS_distribution.shp", alll, proj4)
+    shp_path = os.path.join(os.path.expanduser('~'), os.path.split(sample_path)[0], 'spacial_check')
+    save_shp(shp_path+"/2017_Potatoes_CB_distribution.shp", alll, proj4)
 

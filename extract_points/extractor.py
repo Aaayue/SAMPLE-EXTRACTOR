@@ -53,10 +53,10 @@ import signal
 # import itertools
 import functools
 import multiprocessing
-from waterfall.extractor_functions.landsat_extractor import extract_landsat_SR
-from waterfall.extractor_functions.sentinel_extractor import extract_sentinel_SR
-from waterfall.extractor_functions.precip_extractor import extract_TRMM_GPM
-from waterfall.extractor_functions.MODIS_extractor import extract_MODIS_LST
+from extractor_functions.landsat_extractor import extract_landsat_SR
+from extractor_functions.sentinel_extractor import extract_sentinel_SR
+from extractor_functions.precip_extractor import extract_TRMM_GPM
+from extractor_functions.MODIS_extractor import extract_MODIS_LST
 import time
 
 
@@ -102,7 +102,7 @@ class Extractor(object):
         tasks = [{key: val} for key, val in tasks.items()]
 
         # worker_num = multiprocessing.cpu_count() - 1
-        worker_num = 6
+        worker_num = 5
         pool = multiprocessing.Pool(worker_num, self.parallel_initializer)
         try:
             returned = pool.map_async(run_function, tasks)
@@ -234,7 +234,7 @@ class Extractor(object):
                         + "_"
                         + ctype
                         + "_"
-                        + "extractor_results_150710"
+                        + "extractor_results"
                         + "_"
                         + str(n)
                         + ".npz",
@@ -250,7 +250,7 @@ class Extractor(object):
                     + "_"
                     + ctype
                     + "_"
-                    + "extracted_results_0930"
+                    + "extracted_results"
                     + "_"
                     + str(n)
                     + ".npz",
@@ -264,16 +264,19 @@ if __name__ == "__main__":
 
     # some static path information
     input_file = os.path.join(
-        os.path.expanduser("~"), "data_pool/U-TMP/excersize/point_extractor/sample_points"
+        os.path.expanduser("~"),
+        "data_pool/U-TMP/excersize/point_extractor/sample_points"
+        # "data_pool/U-TMP/NorthXJ_CIR"
     )
 
     sentinel_listfile = os.path.join(
-        os.path.expanduser("~"), "tq-data04/SAFE_sentinel/sentinel_20180729.json"
+        os.path.expanduser("~"), "tq-data04/Sentinel2_sr/sentinel_20180729.json"
     )
 
     landsat_listfile = os.path.join(
         os.path.expanduser("~"),
-        "data_pool/test_data/landsat/landsat_list_20180718.json",
+        "data2/X-EX/landsat/processed_list_sucess_20181213.json",
+        # "data_pool/U-TMP/sample_extractor/extract_points/CHINA_landset_sr.json"
     )
 
     modis_file_list = {
@@ -281,7 +284,7 @@ if __name__ == "__main__":
         "MYD_Path": "tq-data04/modis/MYD11A1.006",
     }
     # out_path = "data_pool/waterfall_data/extracted_points/tt"
-    out_path = "data_pool/U-TMP/excersize/point_extractor/extract_points/South_east"
+    out_path = "data_pool/U-TMP/excersize/point_extractor/extract_points/Corn_belt"
 
     intermediate_out_path = (
         "data_pool/U-TMP/excersize/point_extractor/extract_points/intermediate_save"
@@ -290,19 +293,24 @@ if __name__ == "__main__":
     # dynamic path and data file information
     task_files = os.listdir(input_file)
     dynamic_task = {
-        "date_pair": [("20170401", "20170930"), ("20160401", "20160930"), ("20150401", "20150930"), ("20140401", "20140930")],
+        "date_pair": [("20170401", "20170930"), ("20170401", "20170930")
+                      # ("20160401", "20160930"),
+                      # ("20150401", "20150930"),
+                      # ("20140401", "20140930")
+                      ],
         "tasks": [
-                ['2017_Peanuts_South_east_sample_points_c.npz'],
-                ['2016_Peanuts_South_east_sample_points_c.npz'],
-                ['2015_Peanuts_South_east_sample_points_c.npz'],
-                ['2014_Peanuts_South_east_sample_points_c.npz']
+                ['2017_Oats_Corn_belt_sample_points_c.npz'],
+				['2017_Potatoes_Corn_belt_sample_points_c.npz']
+                # ['2016_Peanuts_South_east_sample_points_c.npz'],
+                # ['2015_Peanuts_South_east_sample_points_c.npz'],
+                # ['2014_Peanuts_South_east_sample_points_c.npz']
                 # task_files
         ],
     }
 
     # do a loop to execute all task
-    print(len(dynamic_task["date_pair"]))
-    print(len(dynamic_task["tasks"]))
+    # print(len(dynamic_task["date_pair"]))
+    # print(len(dynamic_task["tasks"]))
     assert len(dynamic_task["date_pair"]) == len(dynamic_task["tasks"])
     for i in range(len(dynamic_task["date_pair"])):
         start_date = dynamic_task["date_pair"][i][0]
@@ -314,7 +322,7 @@ if __name__ == "__main__":
         for task_f in tasks_file:
             input_files = input_file + '/' + task_f
             basename = os.path.basename(input_files)
-            print(input_files)
+            # print(input_files)
             # print(basename)
             year, crop = basename.split("_")[0], basename.split("_")[1]
 

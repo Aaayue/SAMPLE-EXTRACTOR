@@ -80,6 +80,7 @@ class Preprocessor:
         for file_name in file_list_tot:
             if year_crop in file_name:
                 file_list.append(file_name)
+        print(file_list)
         return file_list
 
     def _load_files(self, file_name):
@@ -150,8 +151,8 @@ class Preprocessor:
 
     def _interpolate_and_sg(self, data_series):
         """interpolate the data to convert nan values to interpolated values"""
-        datestr = list(zip(*(data_series)))[0]
-        valuestr = list(zip(*(data_series)))[1]
+        datestr = list(zip(*data_series))[0]
+        valuestr = list(zip(*data_series))[1]
         valuestr = pd.Series(valuestr)
         value_interp = valuestr.interpolate(method="linear", limit_direction="both")
         # MARK: pay attention to limit_direction
@@ -163,7 +164,7 @@ class Preprocessor:
 
     def single_run(self, file_name, quantity):
         """run the whole process for a single npz file"""
-        file_index = file_name.split(".")[0][-1]
+        file_index = file_name.split(".")[0].split('_')[-1]
         save_name = (
             self.year
             + "_"
@@ -211,10 +212,10 @@ class Preprocessor:
                     bad_entry = 1
                     print(data_type, bad_entry)
                     continue
-                if eval(data_series[-1][0]) < 20180730:
-                    print('NOT ENOUGH SAMPLES: ', coordinate, save_name)
-                    bad_entry = 1
-                    break
+                # if eval(data_series[-1][0]) < 20180730:
+                #     print('NOT ENOUGH SAMPLES: ', coordinate, save_name)
+                #     bad_entry = 1
+                #     break
                 data_series = self._truncate_data(data_series)
                 data_series = self._remove_duplicates(data_series)
 
@@ -244,7 +245,8 @@ class Preprocessor:
     def batch_run(self):
         file_list = self._get_file_list()
         for file_name in file_list:
-            self.single_run(file_name, floor(QUANTITY / len(file_list)))  # noqa :F405
+            # self.single_run(file_name, floor(QUANTITY / len(file_list)))  # noqa :F405
+            self.single_run(file_name, QUANTITY)  # noqa :F405
 
 
 if __name__ == "__main__":

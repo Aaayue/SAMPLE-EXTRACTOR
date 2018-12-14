@@ -1,7 +1,8 @@
 from settings import *  # noqa :F403
 
-CROP_TYPES = ['Corn', 'Soybeans', 'Cotton', 'WinterWheat', 'SpringWheat', 'DurumWheat', 'Other']
-years = ["2014", "2015", "2016", "2017"]
+# CROP_TYPES = ['Corn', 'Soybeans', 'Cotton', 'WinterWheat', 'SpringWheat', 'DurumWheat', 'Other']
+CROP_TYPES = ['Potatoes', 'Oats']
+years = ["2017"]
 
 manifest_regular_short = [
     (year, crop_type, "0401", "0930", 17, 1)
@@ -14,7 +15,8 @@ MANIFEST_PREP = manifest_regular_short
 
 MODEL_DATA_TYPE = REF_TYPES_L  # + LST_TYPES + PRECIP_TYPES  # noqa :F405
 MANIFEST_PRET = [
-    (["2014", "2015", "2016"], "2017", "0401", "0930", "17", "1"),
+    # (["2014", "2015", "2016"], "2017", "0401", "0930", "17", "1"),
+    (["2017"], "2017", "0401", "0930", "17", "1"),
 ]
 
 MODEL_NOTE = "REG"

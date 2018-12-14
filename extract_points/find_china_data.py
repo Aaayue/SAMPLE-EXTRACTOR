@@ -54,11 +54,11 @@ def save_year_result(result_file: str, landsat_list: list) -> str:
 
 
 if __name__ == "__main__":
-	home = os.path.expanduser('~')
+    home = os.path.expanduser('~')
     # load pr
-    txt_path = home+"/data_pool/X-EX/china/china_PR.txt"
+    txt_path = "/home/zy/data2/X-EX/china/china_PR.txt"
     pr_list = load_text(txt_path)
-    year_list = ["2018"]
+    year_list = ["2017"]
     for year in year_list:
         start = time.time()
         print("now process:", year)
@@ -75,6 +75,6 @@ if __name__ == "__main__":
         end = time.time()
         print("%s total: %d " % (year, len(landsat_list)))
         print("Task runs %0.2f seconds" % (end - start))
-		result_file = os.path.join(os.path.dirname(__file__), 'CHINA_landset_sr.json')
+        result_file = os.path.join(os.path.dirname(__file__), 'CHINA_landset_sr.json')
         landsat_list = [f.replace(home+"/", "") for f in landsat_list]
         save_year_result(result_file, landsat_list)

@@ -10,7 +10,7 @@ from osgeo import gdal
 from os.path import join
 import numpy
 from datetime import datetime
-import waterfall.extractor_functions.geo_functions as geo_functions
+import extractor_functions.geo_functions as geo_functions
 import gc
 import time
 
