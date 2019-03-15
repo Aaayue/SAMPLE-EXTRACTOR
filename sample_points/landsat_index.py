@@ -36,11 +36,11 @@ class ConvertToWRS:
         using the shapefile keyword - but it should work if the
         shapefile is in the same directory.
         """
-        shapefile = os.path.join(
-            os.path.dirname(os.path.realpath(__file__)),
-            "wrs2_descending_world",
-            "wrs2_descending.shp",
-        )
+        # shapefile = os.path.join(
+        #     os.path.dirname(os.path.realpath(__file__)),
+        #     "wrs2_descending_world",
+        #     "wrs2_descending.shp",
+        # )
         # Open the shapefile
         self.shapefile = ogr.Open(shapefile)
         if not os.path.exists(shapefile):

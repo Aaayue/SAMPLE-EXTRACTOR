@@ -37,7 +37,7 @@ class ConvertToMRGS:
         shapefile is in the same directory.
         """
         shapefile = os.path.join(
-            os.path.dirname(os.path.realpath(__file__)), "MRGS", "MRGS_Grid.shp"
+            os.path.expanduser('~'), "data_pool/U-TMP/TILE/MRGS-CHN", "MRGS_Grid.shp"
         )
         # Open the shapefile
         self.shapefile = ogr.Open(shapefile)

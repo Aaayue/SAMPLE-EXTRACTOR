@@ -16,7 +16,7 @@ def main(tif1, tif2):
     img = img1 + img2
     img[img > 2] = 2
 
-    outpath = '/home/zy/data_pool/U-TMP/NJ/out/mlp/NJ_2018_demo.tif'
+    outpath = '/home/zy/data_pool/U-TMP/NJ/out/mlp/ML_2018_demo_new.tif'
 
     out_arr = img.astype(np.int8)
     # write output into tiff file
@@ -29,6 +29,6 @@ def main(tif1, tif2):
 
 
 if __name__ == "__main__":
-    tif1 = '/home/zy/data_pool/U-TMP/NJ/out/mlp/corn/merge_tif_nj/NJ_corn_clip_30m_filter7.tif'
-    tif2 = '/home/zy/data_pool/U-TMP/NJ/out/mlp/soybeans/merge_tif_nj/NJ_soybeans_clip_30m_filter7.tif'
+    tif1 = '/home/zy/data_pool/U-TMP/NJ/out/mlp/corn/merge_tif_ml2/ML_corn_clip_20m_filter7.tif'
+    tif2 = '/home/zy/data_pool/U-TMP/NJ/out/mlp/soybeans/merge_tif_ml2/ML_soybeans_clip_20m_filter7.tif'
     main(tif1, tif2)

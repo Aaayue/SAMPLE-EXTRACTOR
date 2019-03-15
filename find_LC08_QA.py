@@ -17,7 +17,10 @@ def main(tile_js, path_js):
     for tile in tiles:
         print('processing '+tile)
         tilee = tile.split('/')[0].zfill(3)+tile.split('/')[1].zfill(3)
-        tile_path = [x for x in paths if 'LC08' and tilee in x]
+        tile_path = [x for x in paths if tilee in x]
+        print(len(tile_path))
+        tile_path = [x for x in tile_path if 'LC08' in x]
+        print(len(tile_path))
         pprint.pprint(tile_path)
         QA = glob.glob(os.path.join(home, tile_path[0]+'/*pixel_qa.tif'))
         print(QA)

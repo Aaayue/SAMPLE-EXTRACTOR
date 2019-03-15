@@ -27,6 +27,6 @@ def count_1_tif(fileIn):
 
 if __name__ == '__main__':
     home = os.path.expanduser('~')
-    file = '/home/zy/data_pool/U-TMP/NorthXJ/china_XJ_2018_clip.tif'
+    file = '/home/zy/Desktop/2018-keping-cotton_filter7.tif'
     count = count_1_tif(file)
     print(count)

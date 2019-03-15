@@ -5,6 +5,10 @@ The Extractor class extracts pixel level timeseries, including
     2. MODIS LST MOD/MYD11A1
     3. Sentinel with 6 bands, R, G, B, NIR, SWIR1, SWIR2
     4. TRMM, GPM daily 3B42-daily
+extracting_state: 
+    1: landsat
+    2: sentinel
+
 INPUT: sampled points from sampler. e.g.
     {"landsat":{"tile1":[(lat1,lon1),(lat2,lon2),...]}
                {"tile2":[(lat1,lon1),(lat2,lon2),...]}
@@ -49,8 +53,6 @@ import os
 import numpy
 import json
 import signal
-
-# import itertools
 import functools
 import multiprocessing
 from extractor_functions.landsat_extractor import extract_landsat_SR
@@ -220,12 +222,12 @@ class Extractor(object):
             out_path = os.path.join(os.path.expanduser("~"), out_path.strip("./"))
 
         length = len(dataset.keys())
-        chunk = 10000  # arbitrary chunk size
+        chunk = 5000  # arbitrary chunk size
         iter_total = int(length / chunk) + 1
 
         for n in range(iter_total):
             # tmp = itertools.islice(dataset.items(), n * chunk, (n + 1) * chunk)
-            tmp = list(dataset.items())[(n*chunk):(n + 1)*chunk]  # noqa : E203
+            tmp = list(dataset.items())[(n * chunk):(n + 1) * chunk]  # noqa : E203
             try:
                 os.remove(
                     os.path.join(
@@ -265,18 +267,20 @@ if __name__ == "__main__":
     # some static path information
     input_file = os.path.join(
         os.path.expanduser("~"),
-        "data_pool/U-TMP/excersize/point_extractor/sample_points"
-        # "data_pool/U-TMP/NorthXJ_CIR"
+        # "data_pool/U-TMP/NorthXJ"
+        # "data_pool/U-TMP/TEST_sentinel"
+        "data2/citrus/hunan_data/hunan_process"
     )
 
     sentinel_listfile = os.path.join(
-        os.path.expanduser("~"), "tq-data04/Sentinel2_sr/sentinel_20180729.json"
+        os.path.expanduser("~"), "data_pool/U-TMP/China_2018_Sentinel_sr_part.json"
     )
 
     landsat_listfile = os.path.join(
         os.path.expanduser("~"),
-        "data2/X-EX/landsat/processed_list_sucess_20181213.json",
-        # "data_pool/U-TMP/sample_extractor/extract_points/CHINA_landset_sr.json"
+        # "data2/X-EX/landsat/processed_list_sucess_20181213.json",
+        # "data_pool/U-TMP/NorthXJ/CHINA-XJ_2018_landset_sr.json"
+        "data2/citrus/citrus_PR/landsat/hnsc_l8_sr_list.json"
     )
 
     modis_file_list = {
@@ -284,34 +288,32 @@ if __name__ == "__main__":
         "MYD_Path": "tq-data04/modis/MYD11A1.006",
     }
     # out_path = "data_pool/waterfall_data/extracted_points/tt"
-    out_path = "data_pool/U-TMP/excersize/point_extractor/extract_points/Corn_belt"
+    out_path = "data2/citrus/hunan_data/hunan_process"
 
     intermediate_out_path = (
-        "data_pool/U-TMP/excersize/point_extractor/extract_points/intermediate_save"
+        "data2/citrus/hunan_data/hunan_process/intermediate_save"
     )
 
     # dynamic path and data file information
     task_files = os.listdir(input_file)
     dynamic_task = {
-        "date_pair": [("20170401", "20170930"), ("20170401", "20170930")
-                      # ("20160401", "20160930"),
-                      # ("20150401", "20150930"),
+        "date_pair": [("20180101", "20181231"),
+                      # ("20180101", "20181231"),
+                      # ("20180401", "20180930"),
                       # ("20140401", "20140930")
                       ],
         "tasks": [
-                ['2017_Oats_Corn_belt_sample_points_c.npz'],
-				['2017_Potatoes_Corn_belt_sample_points_c.npz']
-                # ['2016_Peanuts_South_east_sample_points_c.npz'],
-                # ['2015_Peanuts_South_east_sample_points_c.npz'],
-                # ['2014_Peanuts_South_east_sample_points_c.npz']
-                # task_files
+            # ['2018_Citrus_Hunan_sample_points_c.npz'],
+            ['2018_Other_Hunan_sample_points_c.npz'],
+            # task_files
         ],
     }
 
+    extracting_state = 1
+
     # do a loop to execute all task
-    # print(len(dynamic_task["date_pair"]))
-    # print(len(dynamic_task["tasks"]))
     assert len(dynamic_task["date_pair"]) == len(dynamic_task["tasks"])
+
     for i in range(len(dynamic_task["date_pair"])):
         start_date = dynamic_task["date_pair"][i][0]
         end_date = dynamic_task["date_pair"][i][1]
@@ -320,6 +322,7 @@ if __name__ == "__main__":
         # print(tasks_file)
 
         for task_f in tasks_file:
+            final = []
             input_files = input_file + '/' + task_f
             basename = os.path.basename(input_files)
             # print(input_files)
@@ -332,42 +335,47 @@ if __name__ == "__main__":
             sentinel_file_list = e.get_jsonlist(sentinel_listfile)
             landsat_file_list = e.get_jsonlist(landsat_listfile)
 
-            # print("Starting Sentinel")
-            # if int(year) < 2016:
-            #     print("Year %s has no sentinel data, pass" % year)
-            #     s_o = {}
-            # else:
-            #     tic = time.time()
-            #     s_o = e.run_sentinel(
-            #         latlon_array, start_date, end_date, sentinel_file_list
-            #     )
-            #     # print("SSS %f" % (time.time() - tic))
-            #     # save sentinel intermediate file
-            #     numpy.savez(
-            #         os.path.join(
-            #             os.path.expanduser("~"),
-            #             intermediate_out_path,
-            #             task_f.split(".")[0] + "_" + "sentinel_intermediate.npz",
-            #         ),
-            #         s_o,
-            #     )
-            #     print("sentinel file saved")
+            if extracting_state == 1:
+                print("Starting Landsat")
+                tic = time.time()
+                final = e.run_landsat(
+                    latlon_array, start_date, end_date, landsat_file_list
+                )
+                print("Extracting time {}".format(time.time() - tic))
+                # save intermediat file
+                numpy.savez(
+                    os.path.join(
+                        os.path.expanduser("~"),
+                        intermediate_out_path,
+                        task_f.split(".")[0]
+                        + "_landsat_intermediate_china.npz",
+                    ),
+                    final,
+                )
+                print("landsat file saved")
 
-            print("Starting Landsat")
-            tic = time.time()
-            l_o = e.run_landsat(latlon_array, start_date, end_date, landsat_file_list)
-            # print("LLL %f" % (time.time() - tic))
-
-            # save intermediat file
-            numpy.savez(
-                os.path.join(
-                    os.path.expanduser("~"),
-                    intermediate_out_path,
-                    task_f.split(".")[0] + "_" + "landsat_intermediate_china.npz",
-                ),
-                l_o,
-            )
-            print("landsat file saved")
+            if extracting_state == 2:
+                print("Starting Sentinel")
+                if int(year) < 2016:
+                    print("Year %s has no sentinel data, pass" % year)
+                    final = {}
+                else:
+                    tic = time.time()
+                    final = e.run_sentinel(
+                        latlon_array, start_date, end_date, sentinel_file_list
+                    )
+                    print("Extracting time {}".format(time.time() - tic))
+                    # save sentinel intermediate file
+                    numpy.savez(
+                        os.path.join(
+                            os.path.expanduser("~"),
+                            intermediate_out_path,
+                            task_f.split(".")[0]
+                            + "_sentinel_intermediate.npz",
+                        ),
+                        final,
+                    )
+                    print("sentinel file saved")
 
             # print("Starting Modis")
             # tic = time.time()
@@ -402,10 +410,10 @@ if __name__ == "__main__":
             # print("precipitation file saved")
 
             tic = time.time()
-            final = e.ensemble(
-                # landsat_out=l_o, sentinel_out=s_o, modis_out=m_o, precip_out=p_o
-                landsat_out=l_o, sentinel_out=0, modis_out=0, precip_out=0
-            )
+            # final = e.ensemble(
+            # landsat_out=l_o, sentinel_out=s_o, modis_out=m_o, precip_out=p_o
+            # landsat_out=l_o, sentinel_out=0, modis_out=0, precip_out=0
+            # )
             # print("SSS %f" % (time.time() - tic))
             e.save_to_npz(final, out_path, year, crop)
             print("HERO: all done")

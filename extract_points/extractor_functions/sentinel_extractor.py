@@ -37,7 +37,7 @@ def get_file_list(tiles, start_time, end_time, source_list):
         tileid = join(tile[0:2], tile[2:3], tile[3:5])
         # find the file in list for given tile
         file_folds = [
-            os.path.join(os.path.expanduser("~"), tmp.strip("./"))
+            os.path.join(os.path.expanduser("~"), tmp)
             for tmp in source_list
             if tileid in tmp
         ]
@@ -120,6 +120,9 @@ def extract_sentinel_SR(tiles_dict, start_time, end_time, data_source):
       function to extract sentinel groud surface reflectance
       args:
           tiles_dict: dict with key to be tile id, value to be lat lon array
+           e.g. {"tile1":[(lat1,lon1),(lat2,lon2),...]
+                 "tile2":[(lat1,lon1),(lat2,lon2),...]
+                }
           start_time in format YYYYMMDD
           end_time in format YYYYMMDD
           datasource: a list of SAFE files to get data from
@@ -220,7 +223,7 @@ def extract_sentinel_SR(tiles_dict, start_time, end_time, data_source):
             try:
                 # creat cloud path; path has to be firmly relative to data source path
                 qc_path = folder_path.split("/S2")[0].replace(
-                    "SAFE_sentinel/", "SAFE_sentinel/cloudmask/sentinel/"
+                    "Sentinel2_sr/", "Sentinel2_sr/cloudmask/sentinel/"
                 )
                 if os.path.exists(qc_path):
                     if len(list(os.listdir(qc_path))) != 4 or not os.path.isfile(

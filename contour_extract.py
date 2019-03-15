@@ -23,18 +23,35 @@ if __name__ == '__main__':
     home = os.path.expanduser('~')
     tif = os.path.join(
         home,
-        'data_pool/U-TMP/NorthXJ/china_XJ_2018_clip.tif'
+        # 'data_pool/TF_DATA/cdl/20180930_china_XJ_cotton/no_border_v2/china_XJ_2018.tif'
+        'data_pool/cleanup/waterfall_data/crop_tif/Landsat/20180101-20181231', 
+        'HN04-2018/125-41-20180101-20181231.tif'
     )
     ds = gdal.Open(tif)
     geo_trans = ds.GetGeoTransform()
     w = ds.RasterXSize
     h = ds.RasterYSize
-    mor_img = ds.ReadAsArray()
-    out_arr = main(mor_img, 10)
-    print('extract time: {}'.format(time.time()-start))
+    ori_img = ds.ReadAsArray()
+    mor_img = ori_img.copy()
+    mor_img[mor_img != 255] = 0
+    mor_img[mor_img == 255] = 1
+    out_arr1 = main(mor_img, 7)
+    """
+    mor_img = ori_img.copy()
+    mor_img[mor_img != 2] = 0
+    mor_img[mor_img == 2] = 1
+    out_arr2 = main(mor_img, 7)
+
+    mor_img = ori_img.copy()
+    mor_img[mor_img != 3] = 0
+    mor_img[mor_img == 3] = 1
+    out_arr3 = main(mor_img, 7)
+    """
+    out_arr = out_arr1 # + out_arr2 * 2 + out_arr3 * 3
+    print('extract time: {}'.format(time.time() - start))
     print('contour extracted! ')
     # build output path
-    outpath = tif.replace('.tif', '_filter10.tif')
+    outpath = tif.replace('.tif', '_filter7.tif')
 
     out_arr = out_arr.astype(np.int8)
     # write output into tiff file

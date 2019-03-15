@@ -30,6 +30,10 @@ CROP = {
     'Peanuts': 10,
     'Potatoes': 43,
     'Oats': 28,
+    'Spring Wheat': 23,
+    'Sorghum': 4,
+    'Citrus': 72,
+    'Orange': 212,
 }
 logger = logging.getLogger()
 
@@ -286,9 +290,9 @@ if __name__ == '__main__':
     root_path = 'data_pool/U-TMP/excersize/point_extractor'
 
     # =============可调式参数=================
-    pixel_num = 2000
-    crop_types = ['Potatoes', 'Oats']
-    region = 'Corn_belt'
+    pixel_num = 4000
+    crop_types = ['Orange']
+    region = 'Florida'
     state = 2
     years = ['2017']  # only useful for state=1
     # =======================================
@@ -326,7 +330,7 @@ if __name__ == '__main__':
     elif state == 2:
         print('*******************************Clip CDL image and extract samples********************************')
         # =============可调参数=====================
-        tile_json = os.path.join(home_dir, root_path, 'Corn_belt_potatoes_oats.json')
+        tile_json = os.path.join(home_dir, root_path, 'Florida_citrus.json')
         # =======================================
         with open(tile_json, 'r') as lf:
             tile_paths = json.load(lf)
